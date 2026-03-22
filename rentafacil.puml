@@ -1,0 +1,64 @@
+@startuml
+
+object Cliente{
+    id
+    nombre
+    dni
+    telefono
+}
+
+object Alquiler{
+    codigo
+    fechaInicio
+    fechaFin
+    /costoTotal
+    estado
+    
+    +registrar()
+    +finalizar()
+}
+
+object Vehiculo{
+    +placa
+    +marca
+    +modelo
+    +anioFabricacion
+    +precioDia
+}
+
+object Moto{
+    cilindrada
+}
+
+object Camioneta{
+    capacidadCarga
+}
+
+class SistemaAlquiler{
+    +agregarCliente()
+    +agregarVehiculo()
+    +registrarAlquiler()
+    +finalizarAlquiler()
+}
+
+Cliente "1" -- "0..*" Alquiler : realiza
+Alquiler "1" -- "1..3" Vehiculo : incluye
+
+Auto --|> Vehiculo
+Moto --|> Vehiculo
+Camioneta --|> Vehiculo
+
+SistemaAlquiler --> Cliente
+SistemaAlquiler --> Vehiculo
+SistemaAlquiler --> Alquiler
+
+note right of Vehiculo
+No puede estar en más de un
+alquiler activo al mismo tiempo
+end note
+
+note right of Alquiler
+costoTotal = precioDia * dias
+estado: Activo / Finalizado
+end note
+@enduml
